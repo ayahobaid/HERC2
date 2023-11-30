@@ -42,4 +42,5 @@ cat herc2.contree
 > shh_tree <- "(cat_1:0.0249024586,dog_1:0.0297231043,((((((human_1:0.0027291427,pygmy_chimpanzee_1:0.0024700081)100:0.0014702268,western_lowland_gorilla_1:0.0026065312)100:0.0062029600,sumatran_orangutan_1:0.0080144946)96:0.0033103015,(northern_whitecheeked_gibbon._1:0.0022893017,(siamang_1:0.0029156847,silvery_gibbon_1:0.0027648747)51:0.0005953196)100:0.0070204772)100:0.0484597028,rabbit_1:0.0553741103)100:0.0280217849,pig_1:0.0546495131)100:0.0201830195);"
 > shh_tree <- read.tree(text=shh_tree)
 > ggtree(shh_tree) + geom_tiplab() 
+# After seeing the most and least related mammals to humans and using NCBI's comparative genome viewer, the overlap in sequence was produced in a figure
 # done!
