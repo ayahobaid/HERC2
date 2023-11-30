@@ -1,0 +1,45 @@
+# first a new dirctory was made
+mkdir finalpro
+# then after much trial and error of getting the FASTA file into Mobaxterm another directory was made to store the sequences
+mkdir seqs
+# after finding the location of the FASTA file for the HERC2 for each organism it was copied and pasted in a text box and saved as a .fa file
+nano human.fa
+# insert gene sequence from NCBI
+# then repated for each organism
+nano sumatran_orangutang.fa
+nano pygmy_chimpanzee.fa
+nano western_lowland_gorilla.fa
+nano silvery_gibbon.fa
+nano siamang.fa
+nano northern_whitecheeked_gibbon.fa
+nano rabbit.fa
+nano pig.fa
+nano cat.fa
+nano dog.fa
+# then the header of each file was changed so that the name on the phylogenetic tree would be easier to read
+awk '/^>/{print ">pygmy_chimpanzee_" ++i; next}{print}' pygmy_chimpanzee.fa > header_pygmy_chimpanzee.fa
+awk '/^>/{print ">western_lowland_gorilla_" ++i; next}{print}' western_lowland_gorilla.fa > header_western_lowland_gorilla.fa
+awk '/^>/{print ">silvery_gibbon_" ++i; next}{print}' silvery_gibbon.fa > header_silvery_gibbon.fa
+awk '/^>/{print ">siamang_" ++i; next}{print}' siamang.fa > header_siamang.fa
+awk '/^>/{print ">northern_whitecheeked_gibbon._" ++i; next}{print}' northern_whitecheeked_gibbon.fa > header_northern_whitecheeked_gibbon.fa
+awk '/^>/{print ">rabbit_" ++i; next}{print}' rabbit.fa > header_rabbit.fa                                                 
+awk '/^>/{print ">human_" ++i; next}{print}' human.fa > header_human.fa
+awk '/^>/{print ">pig_" ++i; next}{print}' pig.fa > header_pig.fa
+awk '/^>/{print ">cat_" ++i; next}{print}' cat.fa > header_cat.fa
+awk '/^>/{print ">dog_" ++i; next}{print}' dog.fa > header_dog.fa
+awk '/^>/{print ">sumatran_orangutan_" ++i; next}{print}' sumatran_orangutan.fa > header_sumatran_orangutan.fa
+# then all files were combined into one
+cat header_cat.fa header_dog.fa header_human.fa header_northern_whitecheeked_gibbon.fa header_pig.fa header_pygmy_chimpanzee.fa header_rabbit.fa header_siamang.fa header_silvery_gibbon.fa header_sumatran_orangutan.fa header_western_lowland_gorilla.fa > animals_herc2.fa
+# this was then put in to MAFFT to align
+/project/stuckert/aobaid/lab9/phylo/bin/mafft --auto animals_herc2.fa > animals_HERC2.fa
+# the output of this was then put into Iqtree, after 2 times it worked
+/project/stuckert/aobaid/lab9/phylo/bin/iqtree -s animalsHERC2.fa -m GTR -bb 1000 -pre herc2 --redo
+# to get the information needed to put in to RStudio, information was extracted from the herc2.contree file
+cat herc2.contree
+# the information outputted was put into the following code in Rstudio, which genreated the phylogenetic tree
+> library(ape)
+> library(ggtree)
+> shh_tree <- "(cat_1:0.0249024586,dog_1:0.0297231043,((((((human_1:0.0027291427,pygmy_chimpanzee_1:0.0024700081)100:0.0014702268,western_lowland_gorilla_1:0.0026065312)100:0.0062029600,sumatran_orangutan_1:0.0080144946)96:0.0033103015,(northern_whitecheeked_gibbon._1:0.0022893017,(siamang_1:0.0029156847,silvery_gibbon_1:0.0027648747)51:0.0005953196)100:0.0070204772)100:0.0484597028,rabbit_1:0.0553741103)100:0.0280217849,pig_1:0.0546495131)100:0.0201830195);"
+> shh_tree <- read.tree(text=shh_tree)
+> ggtree(shh_tree) + geom_tiplab() 
+# done!
