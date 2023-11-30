@@ -43,3 +43,4 @@ cat herc2.contree
 > shh_tree <- read.tree(text=shh_tree)
 > ggtree(shh_tree) + geom_tiplab() 
 # done!
+![phylogenetic tree] ("C:\Users\ayaho\Pictures\Rplot06.png")
